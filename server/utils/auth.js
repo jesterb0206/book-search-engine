@@ -1,14 +1,17 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
-const secret = process.env.JWT_SECRET;
+// Sets Token Secret and Expiration Date
+
+const secret = 'mysecretsshhhhh';
 const expiration = '2h';
 
 module.exports = {
+  // A Function for the Authenticated Routes
+
   authMiddleware: function ({ req }) {
     // Allows the JSON Web Token to Be Sent via req.body, req.query, or req.headers
 
-    let token = req.body.token || req.query.token || req.headers.authorization;
+    let token = req.query.token || req.headers.authorization || req.body.token;
 
     // Splits the Token String Into an Array and Returns The Actual Token
 
@@ -22,6 +25,8 @@ module.exports = {
 
     // If the Token Can Be Verified, Add the Decoded User’s Data to the Request So It Can Be Accessed in the Resolver
 
+    // Verify the Token and Get the User Data From It
+
     try {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
       req.user = data;
@@ -33,8 +38,8 @@ module.exports = {
 
     return req;
   },
-  signToken: function ({ email, username, _id }) {
-    const payload = { email, username, _id };
+  signToken: function ({ username, email, _id }) {
+    const payload = { username, email, _id };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
 };
