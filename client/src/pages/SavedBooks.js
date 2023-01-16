@@ -95,7 +95,11 @@ const SavedBooks = () => {
                   <p className="small">Authors: {book.authors}</p>
                   {book.link ? (
                     <Card.Text>
-                      <a href={book.link} target="_blank">
+                      <a
+                        href={book.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         Click on the link to access it from the Google Books
                         site!
                       </a>
