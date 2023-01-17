@@ -32,6 +32,7 @@ module.exports = {
       req.user = data;
     } catch {
       console.log('Invalid token');
+      return res.status(400).json({ message: 'invalid token!' });
     }
 
     // Returns the Request Object So It Can Be Passed to the Resolver as `Context`
