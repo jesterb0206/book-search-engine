@@ -1,7 +1,8 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
-// import schema from Book.js
+// Import Schema From Book.js
+
 const bookSchema = require('./Book');
 
 const userSchema = new Schema(
@@ -21,10 +22,14 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    // set savedBooks to be an array of data that adheres to the bookSchema
+
+    // Set savedBooks to Be an Array of Data That Adheres to the bookSchema
+
     savedBooks: [bookSchema],
   },
-  // set this to use virtual below
+
+  // Set This to Use Virtual Below
+
   {
     toJSON: {
       virtuals: true,
@@ -32,7 +37,8 @@ const userSchema = new Schema(
   }
 );
 
-// hash user password
+// Hash User Password
+
 userSchema.pre('save', async function (next) {
   if (this.isNew || this.isModified('password')) {
     const saltRounds = 10;
@@ -42,12 +48,14 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// custom method to compare and validate password for logging in
+// Custom Method to Compare and Validate Passwords for Logging In
+
 userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-// when we query a user, we'll also get another field called `bookCount` with the number of saved books we have
+// When We Query a User, We’ll Also Get Another Field Called `bookCount` With the Number of Saved Books We Have
+
 userSchema.virtual('bookCount').get(function () {
   return this.savedBooks.length;
 });
