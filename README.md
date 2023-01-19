@@ -1,4 +1,4 @@
-# book-search-engine
+# Book Search Engine
 
 <br>
 
@@ -31,7 +31,7 @@
 
 <br>
 
-- [book-search-engine](#book-search-engine)
+- [Book Search Engine](#book-search-engine)
   - [License](#license)
   - [Deployment Link](#deployment-link)
   - [Table of Contents](#table-of-contents)
