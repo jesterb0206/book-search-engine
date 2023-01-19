@@ -47,7 +47,7 @@
 
 <br>
 
-A Google Books GraphQL API search engine built with Apollo Server (and the MERN stack as well). **To-Do**
+**Book Search Engine** is a Google Books API search engine/GraphQL API built with Apollo Server. It was also built using the MERN stack, with a React front end, MongoDB database, and Node.js/Express.js server and API. **Book Search Engine** uses JSON Web Tokens for authentication: users can search for books but if they wish to save a book they either need to sign up or login in. Once they save a book they can view their saved books on a separate page and can click on links to purchase them on the `Google Books` store.
 
 <br>
 
