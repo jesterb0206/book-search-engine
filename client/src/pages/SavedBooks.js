@@ -6,28 +6,18 @@ import {
   Card,
   Button,
 } from 'react-bootstrap';
-
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { GET_ME } from '../utils/queries';
-import { REMOVE_BOOK } from '../utils/mutations';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
+import { useQuery } from '@apollo/client';
+import { GET_ME } from '../utils/queries';
+import { useMutation } from '@apollo/client';
+import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
   const { loading, data } = useQuery(GET_ME);
-  const [deleteBook] = useMutation(REMOVE_BOOK);
+  const [deleteBook, { error }] = useMutation(REMOVE_BOOK);
   const userData = data?.me || {};
 
-  if (!userData?.username) {
-    return (
-      <h4>
-        In order to view this page you need to be logged. You can use the
-        navigation links above to create an account or log in!
-      </h4>
-    );
-  }
-
-  // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -37,29 +27,29 @@ const SavedBooks = () => {
 
     try {
       await deleteBook({
-        variables: { bookId: bookId },
-        update: (cache) => {
-          const data = cache.readQuery({ query: GET_ME });
-          const userDataCache = data.me;
-          const savedBooksCache = userDataCache.savedBooks;
-          const updatedBookCache = savedBooksCache.filter(
-            (book) => book.bookId !== bookId
-          );
-          data.me.savedBooks = updatedBookCache;
-          cache.writeQuery({
-            query: GET_ME,
-            data: { data: { ...data.me.savedBooks } },
-          });
-        },
+        variables: { bookId },
       });
-      // upon success, remove book's id from localStorage
+
+      // If Successful, Remove a Book’s ID From localStorage
+
       removeBookId(bookId);
+      document.getElementById(bookId).remove();
+      let counterEl = document.getElementById('counter');
+      let currentNum = parseInt(counterEl.innerText.split(' ')[1]);
+      if (currentNum === 1) {
+        return (counterEl.innerText = 'You have no saved books!');
+      } else {
+        counterEl.innerText = `Viewing ${currentNum - 1} saved ${
+          currentNum === 1 ? 'book' : 'books'
+        }`;
+      }
     } catch (err) {
       console.error(err);
     }
   };
 
-  // if data isn't here yet, say so
+  // If Data Hasn’t Arrived Yet
+
   if (loading) {
     return <h2>LOADING...</h2>;
   }
@@ -72,7 +62,7 @@ const SavedBooks = () => {
         </Container>
       </Jumbotron>
       <Container>
-        <h2>
+        <h2 id="counter">
           {userData.savedBooks.length
             ? `Viewing ${userData.savedBooks.length} saved ${
                 userData.savedBooks.length === 1 ? 'book' : 'books'
@@ -80,9 +70,9 @@ const SavedBooks = () => {
             : 'You have no saved books!'}
         </h2>
         <CardColumns>
-          {userData.savedBooks.map((book) => {
+          {userData.savedBooks.map((book, key) => {
             return (
-              <Card key={book.bookId} border="dark">
+              <Card key={key} id={book.bookId} border="dark">
                 {book.image ? (
                   <Card.Img
                     src={book.image}
@@ -93,19 +83,17 @@ const SavedBooks = () => {
                 <Card.Body>
                   <Card.Title>{book.title}</Card.Title>
                   <p className="small">Authors: {book.authors}</p>
-                  {book.link ? (
-                    <Card.Text>
-                      <a
-                        href={book.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Click on the link to access it from the Google Books
-                        site!
-                      </a>
-                    </Card.Text>
-                  ) : null}
                   <Card.Text>{book.description}</Card.Text>
+                  <a
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    sid="link"
+                    href={book.link}
+                  >
+                    {book.link == null
+                      ? 'No Link Available'
+                      : 'Link to Google Books'}
+                  </a>
                   <Button
                     className="btn-block btn-danger"
                     onClick={() => handleDeleteBook(book.bookId)}
@@ -117,6 +105,7 @@ const SavedBooks = () => {
             );
           })}
         </CardColumns>
+        {error && <div>There was an issue viewing your saved books!</div>}
       </Container>
     </>
   );
