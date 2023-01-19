@@ -10,6 +10,22 @@ A Google Books GraphQL API search engine built with Apollo Server (and the MERN 
 
 <br>
 
+## Installation
+
+<br>
+
+Clone the repository to your local machine, open your terminal, and navigate to the root folder in the **Book Search Engine** repository. To install the necessary dependencies, run `npm i` in your command-line terminal. Repeat this process two more times, first navigating to the server folder and second navigating to the client folder (running `npm i` both times).
+
+<br>
+
+## Usage
+
+<br>
+
+**To-Do**
+
+<br>
+
 ## Badges
 
 <br>
