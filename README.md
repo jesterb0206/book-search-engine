@@ -2,6 +2,10 @@
 
 <br>
 
+![Sonic](assets/sonic.png)
+
+<br>
+
 ## License
 
 <br>
@@ -63,7 +67,35 @@ Clone the repository to your local machine, open your terminal, and navigate to 
 
 <br>
 
-**To-Do**
+1. To begin using **Book Search Engine**, sign up by entering a username, your email address, and a secure password!
+
+<br>
+
+![Sign Up](assets/sign-up.png)
+
+<br>
+
+2. To search for a book simply enter a keyword (or keywords) in the `Search for a book` input field and press the `Submit Search` button.
+
+<br>
+
+![Home View](assets/home-view.png)
+
+<br>
+
+3. If you like a book you can press the `Save this book!` book to save it to a page called `See Your Books` (which you can find in the navigation bar). You can also proceed to purchase it on the Google Books store by pressing the link below.
+
+<br>
+
+![Search](assets/search.png)
+
+<br>
+
+4. Here we're viewing John Doe's saved books (he's a huge fan of Geronimo Stilton). If he wants to delete a book from his collection all he has to do is press the `Delete this book!` button. Also, when he's tired of browsing for books he can log out (there's a link to log out in the navigation bar at the top).
+
+<br>
+
+![Saved Books](assets/saved-books.png)
 
 <br>
 
